@@ -1,7 +1,5 @@
 # Bulldog Drawer — Contorno no Turtlesim (ROS 2)
-
-Projeto que **lê uma imagem**, **extrai o contorno principal** com visão computacional implementada do zero (apenas **NumPy** para operações matriciais; **OpenCV só para `imread`**) e **comanda a tartaruga do `turtlesim`** para desenhar o contorno na tela.
-
+## link video: https://youtu.be/g5uXDJJU_zI
 ## Estrutura do repositório
 
 ```
@@ -96,7 +94,7 @@ python scripts/visualize_pipeline.py src/bulldog_drawer/images/bulldog.png --out
 Sem argumentos, abre duas janelas como no enunciado: grade **Original / Grayscale / Sobel / Threshold** e **Contornos Detectados**.
 
 Gera em `output/images/`:
-`01_original`, `02_grayscale`, `03_sobel`, `04_threshold`, `05_contornos_detectados`, `06_pipeline_grid`, `07_contour_overlay`, `08_turtlesim_path`.
+`01_original`, `02_grayscale`, `03_sobel`, `04_threshold`, `05_contornos_detectados`, `06_pipeline_grid`, `07_contour_overlay`, `08_turtlesim`.
 
 ## Pipeline de visão (resumo)
 
@@ -107,22 +105,8 @@ Gera em `output/images/`:
 | **03** | `contours.py` + `mapping.py` | Maior componente conexo, rastreamento Moore, Douglas–Peucker, escala para [0.5, 10.5]² com inversão de Y | Ignora detalhes da coleira; reduz pontos para a tartaruga; alinha coordenadas de imagem (topo-esquerda) com turtlesim (origem embaixo) |
 | **04** | `contour_drawer.py` | `cmd_vel` proporcional + `set_pen` / `teleport_absolute` | Desenha segmentos contínuos; em saltos grandes levanta a caneta e teleporta |
 
-Documentação detalhada: [docs/DOCUMENTACAO.md](docs/DOCUMENTACAO.md)
-
 ## Restrições atendidas
 
 - OpenCV **apenas** em `cv2.imread`
 - Sem Pillow, scikit-image, scipy para CV
 - NumPy para matrizes; Matplotlib só para visualização
-
-## Ajuste fino para a foto do bulldog
-
-Se o desenho ficar muito fragmentado ou com ruído:
-
-1. Aumente `sigma` em `gaussian_blur` (ex.: 2.2)
-2. Suba `high_ratio` em `ContourPipeline` (ex.: 0.32)
-3. Aumente `simplify_epsilon` (ex.: 3.5) para menos pontos
-
-## Licença
-
-MIT
